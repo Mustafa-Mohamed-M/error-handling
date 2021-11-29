@@ -133,10 +133,12 @@ class Application {
         this.app.use((err, req, res, next)=>{
             //send email
             console.log("Attempting to send email");
+            let errorMessage = err.message || 'Oops! That wasn\'t supposed to happen.';
+            errorMessage += "\n" + JSON.stringify(err, ['name', 'message', 'stack'], 4);
             const message = {
                 to: 'mustafamohamed4014@gmail.com',
                 subject: 'You have an error in the application Error Handling',
-                text: err.message || 'Oops! Something\'s not right.',
+                text: errorMessage,
                 from: 'mustafa.mohamed.mus@gmail.com',
             };
             sendgrid.send(message).then(()=>{}, error=>{
@@ -154,7 +156,7 @@ class Application {
                 res.status(404).send(err.message || 'Oops! Resource not found') :
                 next(err);
         });
-        
+
 
         // default server error
         this.app.use((err, req, res, next) => {
