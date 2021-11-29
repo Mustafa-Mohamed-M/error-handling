@@ -154,6 +154,7 @@ class Application {
                 res.status(404).send(err.message || 'Oops! Resource not found') :
                 next(err);
         });
+        
 
         // default server error
         this.app.use((err, req, res, next) => {
