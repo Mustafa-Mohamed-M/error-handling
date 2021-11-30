@@ -2,6 +2,7 @@ require('dotenv').config();
 const sendgrid = require('@sendgrid/mail');
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 const express = require('express');
+const moment = require('moment');
 const fs = require('fs');
 const port = 3000;
 
@@ -134,7 +135,8 @@ class Application {
             //send email
             console.log("Attempting to send email");
             let errorMessage = err.message || 'Oops! That wasn\'t supposed to happen.';
-            errorMessage += "\n" + JSON.stringify(err, ['name', 'message', 'stack'], 4);
+            errorMessage += "\n" + JSON.stringify(err, ['name', 'message'], 4);
+            errorMessage += '\n' + moment(Date.now()).format('Do MMM YYYY h:mm:ss a');
             const message = {
                 to: 'mustafamohamed4014@gmail.com',
                 subject: 'You have an error in the application Error Handling',
